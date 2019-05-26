@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/ladose.jpg">
-    <HelloWorld msg="Stream Title"/>
+    <HelloWorld msg="The Mixup"/>
     <TwitchPlayer stream="froggedtv"/>
 
   </div>
@@ -18,7 +18,7 @@ export default {
     TwitchPlayer
   },
   mounted(){
-
+    
   }
 }
 </script>
