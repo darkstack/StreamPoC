@@ -14,7 +14,7 @@ function parseMessage(connection,message){
     console.log(msg);
     if(msg == 'getChannel')
     {
-        connection.sendUTF(JSON.stringify(currentChannel));
+        connection.sendUTF(JSON.stringify(channelList[rotate]));
     }
     if(msg.includes('setChannel'))
     {
