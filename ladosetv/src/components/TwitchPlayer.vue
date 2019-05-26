@@ -1,25 +1,23 @@
 <template>
   <div>
-    <h3>{{ stream }}</h3>
+    <h3>{{ channel }}</h3>
     <div id="player"></div>
     <button v-on:click="play">Play</button>
     <button v-on:click="pause">Pause</button>
     <button v-on:click="getServerChannel">Server Channel</button>
-
   </div>
 </template>
 
 <script>
 export default {
   name: "TwitchPlayer",
-  props: {
-    stream: String,
-    player: null,
-    options: null,
 
+  props: {
+    stream: String
   },
 
   mounted() {
+    this.channel = this.stream;
     let twitchScript = document.createElement("script");
     twitchScript.addEventListener("load", this.scriptLoaded);
 
@@ -28,11 +26,17 @@ export default {
 
     this.$socket.onmessage = this.message;
   },
+  data: function() {
+    return {
+      player: null,
+      options: null,
+      channel: ''
+    };
+  },
   methods: {
-
-    message(msg){
+    message(msg) {
       window.console.log(msg);
-      if(msg){
+      if (msg) {
         this.setChannel(msg.data);
       }
     },
@@ -40,10 +44,10 @@ export default {
       this.options = {
         width: 640,
         height: 480,
-        channel: this.stream,
-        allowfullscreen : true,
+        channel: this.channel,
+        allowfullscreen: true
       };
-      
+
       this.player = new window.Twitch.Player("player", this.options);
     },
     play() {
@@ -53,12 +57,11 @@ export default {
       this.player.pause();
     },
     setChannel(chanel) {
-      this.stream = chanel;
-      window.console.log("Set channel "+chanel)
+      this.channel = chanel;
+      window.console.log("Set channel " + chanel);
       this.player.setChannel(chanel);
     },
-    getServerChannel(){
-      
+    getServerChannel() {
       this.$socket.send("getChannel");
     }
   }
